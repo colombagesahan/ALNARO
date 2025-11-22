@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ALNARO RESORT — Riverview Luxury | Moratuwa</title>
+  <meta name="description" content="ALNARO RESORT — Riverview family restaurant, function halls, luxury rooms. Book via WhatsApp." />
+  <style>
+    :root{
+      --accent: #b58f59;
+      --dark: #0f1724;
+      --muted: #6b7280;
+      --bg: #fbfbfb;
+      --card: #ffffff;
+      --radius: 14px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:#0b1220;line-height:1.45}
+    a{color:inherit;text-decoration:none}
+
+    /* NAV */
+    .nav{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter: blur(6px);
+      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+      border-bottom:1px solid rgba(15,17,36,0.05);
+    }
+    .nav-inner{max-width:1200px;margin:0 auto;padding:0.6rem 1rem;display:flex;align-items:center;gap:1rem}
+    .brand{display:flex;align-items:center;gap:0.65rem;font-weight:800;letter-spacing:0.6px}
+    .brand .logo{width:46px;height:46px;border-radius:8px;background:linear-gradient(135deg,#efe6d8,#d6c6a2);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--dark)}
+    nav.desktop{margin-left:auto;display:flex;gap:1rem;align-items:center}
+    nav.desktop a{padding:0.5rem 0.8rem;border-radius:10px;color:var(--dark);font-weight:600}
+    nav.desktop a.cta{background:var(--accent);color:white}
+
+    /* Hamburger */
+    .hamburger{margin-left:auto;display:none}
+    .hamburger button{background:none;border:0;padding:0.35rem;border-radius:8px}
+
+    /* HERO SLIDER */
+    .hero{position:relative;overflow:hidden;height:72vh;min-height:420px; /* Removed border-bottom-left/right-radius */}
+    .slides{height:100%;display:flex;transition:transform 0.7s ease;will-change:transform}
+    .slide{min-width:100%;height:100%;position:relative;background-size:cover;background-position:center center;display:flex;align-items:center;justify-content:center}
+    .hero-overlay{position:absolute;left:0;top:0;right:0;bottom:0;background:linear-gradient(180deg, rgba(4,7,12,0.15), rgba(4,7,12,0.38));display:flex;align-items:center;justify-content:flex-start;padding:2rem;z-index:2}
+    .hero-content{max-width:1200px;margin-left:2rem;color:white;padding-top: 60px; /* Offset for fixed nav */}
+    .hotel-name{font-size:clamp(2.5rem,5vw,3.8rem);font-weight:900;letter-spacing:1px;text-shadow: 2px 2px 6px rgba(0,0,0,0.7);line-height:1.2;}
+    .hero-sub{margin-top:0.8rem;color:rgba(255,255,255,0.95);font-weight:700;font-size:clamp(1.1rem, 2.5vw, 1.6rem);text-shadow: 1px 1px 4px rgba(0,0,0,0.6);}
+    .hero-cta{margin-top:1.5rem;display:flex;gap:0.8rem}
+    .btn{padding:0.8rem 1.2rem;border-radius:10px;font-weight:700;border:0;cursor:pointer;font-size:1.05rem;}
+    .btn-outline{background:transparent;border:2px solid rgba(255,255,255,0.4);color:white;transition:background 0.3s ease, border-color 0.3s ease;}
+    .btn-outline:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.6);}
+    .btn-solid{background:var(--accent);color:white;transition:background 0.3s ease;}
+    .btn-solid:hover{background:#d8a56b;}
+
+    /* Slider controls */
+    .slider-controls{position:absolute;left:50%;transform:translateX(-50%);bottom:12px;display:flex;gap:8px;z-index:5}
+    .dot{width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,0.5);cursor:pointer;transition:background 0.3s ease, box-shadow 0.3s ease;}
+    .dot.active{background:var(--accent);box-shadow:0 0 8px rgba(181,143,89,0.35), 0 0 15px rgba(181,143,89,0.2);}
+    .dot:hover:not(.active){background:rgba(255,255,255,0.8);}
+
+
+    /* MAIN CONTENT */
+    .container{max-width:1200px;margin:1.3rem auto;padding:0 1rem}
+    h2{font-size:clamp(1.8rem, 3vw, 2.5rem);font-weight:800;color:var(--dark);margin-bottom:1rem;}
+    h3{font-size:clamp(1.4rem, 2.5vw, 2rem);font-weight:700;color:var(--dark);}
+    p{font-size:1.05rem;}
+    .grid{display:grid;gap:1.5rem}
+    .grid-3{grid-template-columns:1fr 1fr;gap:1.5rem}
+    .card{background:var(--card);border-radius:16px;padding:1.5rem;box-shadow:0 8px 25px rgba(12,15,20,0.08);border:1px solid rgba(12,15,20,0.05);transition:transform 0.3s ease, box-shadow 0.3s ease;}
+    .card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(12,15,20,0.12);}
+    .cols{display:grid;grid-template-columns:1fr 360px;gap:1.5rem;align-items:start}
+
+    /* features */
+    .features{display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.2rem;}
+    .feature{flex:1 1 240px;padding:1rem;border-radius:12px;background:linear-gradient(180deg,#fff,#f8f8f8);display:flex;gap:0.9rem;align-items:center;box-shadow:0 4px 15px rgba(0,0,0,0.04);transition:transform 0.2s ease;}
+    .feature:hover{transform:translateY(-2px);}
+    .feature .icon{width:50px;height:50px;border-radius:10px;background:linear-gradient(135deg,#efe6d8,#d6c6a2);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:var(--dark);box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+    .feature strong{font-size:1.1rem;color:var(--dark);}
+
+    /* Rooms */
+    .rooms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:1rem}
+    .room{border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 6px 20px rgba(12,15,20,0.08);transition:transform 0.3s ease, box-shadow 0.3s ease;}
+    .room:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(12,15,20,0.15);}
+    .room img{width:100%;height:200px;object-fit:cover;border-bottom:1px solid rgba(0,0,0,0.05);}
+    .room-body{padding:1rem;}
+    .room-title{font-weight:800;font-size:1.3rem;color:var(--dark);}
+    .price{color:var(--accent);font-weight:800;margin-top:0.4rem;font-size:1.15rem;}
+
+    /* Gallery */
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .gallery img{width:100%;height:160px;object-fit:cover;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,0.05);transition:transform 0.3s ease, box-shadow 0.3s ease;}
+    .gallery img:hover{transform:scale(1.03);box-shadow:0 6px 15px rgba(0,0,0,0.1);}
+
+    /* Contact / booking form */
+    form .row{display:flex;gap:0.8rem;flex-wrap:wrap}
+    input, textarea, select{width:100%;padding:0.8rem;border-radius:10px;border:1px solid rgba(15,17,36,0.1);font-size:1rem;background:var(--bg);transition:border-color 0.3s ease, box-shadow 0.3s ease;}
+    input:focus, textarea:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(181,143,89,0.1);outline:none;}
+    label{font-weight:700;font-size:0.9rem;margin-bottom:0.4rem;display:block;color:var(--muted)}
+    .form-actions{display:flex;gap:0.8rem;align-items:center;margin-top:1rem}
+    .note{font-size:0.95rem;color:var(--muted);margin-top:0.8rem}
+
+    /* Footer */
+    footer{margin-top:2rem;padding:2rem 0;background:var(--dark);color:rgba(255,255,255,0.85);text-align:center;}
+    .footer-grid{display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:space-between;align-items:flex-start}
+    footer a{color:white;text-decoration:underline;}
+    footer a:hover{color:var(--accent);}
+
+    /* WhatsApp floating */
+    .whatsapp-float{
+      position:fixed;right:16px;bottom:16px;z-index:60;display:flex;flex-direction:column;gap:8px;
+    }
+    .wh-btn{
+      display:inline-flex;align-items:center;justify-content:center; /* Centered for icon only */
+      width: 56px; /* Fixed width for a circular button */
+      height: 56px; /* Fixed height for a circular button */
+      padding:0; /* Remove padding as width/height are fixed */
+      border-radius:999px; /* Make it circular */
+      background:#25D366;color:white;font-weight:800;box-shadow:0 8px 20px rgba(37,211,102,0.25);border:0;cursor:pointer;font-size:1.05rem;transition:background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .wh-btn:hover{background:#1da851;box-shadow:0 10px 25px rgba(37,211,102,0.35);}
+    .wh-btn span:last-child {
+        display: none; /* Hide the "WhatsApp" text */
+    }
+
+    /* Why Choose Us Section */
+    .why-choose-us-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+    .why-choose-us-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.2rem;
+        background: var(--card);
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        border: 1px solid rgba(12,15,20,0.05);
+    }
+    .why-choose-us-item .icon {
+        width: 60px;
+        height: 60px;
+        flex-shrink: 0;
+        border-radius: 12px;
+        background: linear-gradient(135deg,#efe6d8,#d6c6a2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        color: var(--dark);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .why-choose-us-item h4 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: var(--dark);
+        font-weight: 700;
+    }
+    .why-choose-us-item p {
+        margin-top: 0.5rem;
+        font-size: 0.95rem;
+        color: var(--muted);
+    }
+
+    /* Q&A Section */
+    .qa-section .qa-item {
+        margin-bottom: 1rem;
+        background: var(--card);
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        border: 1px solid rgba(12,15,20,0.05);
+        overflow: hidden;
+    }
+    .qa-section .qa-question {
+        padding: 1rem 1.5rem;
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: var(--dark);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f8f8f8;
+        border-bottom: 1px solid rgba(15,17,36,0.05);
+    }
+    .qa-section .qa-question:hover {
+        background: #f0f0f0;
+    }
+    .qa-section .qa-question.active {
+        border-bottom: none;
+    }
+    .qa-section .qa-answer {
+        padding: 0 1.5rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out;
+        color: var(--muted);
+        font-size: 1rem;
+    }
+    .qa-section .qa-answer p {
+        padding-bottom: 1rem;
+        margin: 0;
+    }
+    .qa-section .qa-question .arrow {
+        font-size: 1.2em;
+        transition: transform 0.3s ease;
+    }
+    .qa-section .qa-question.active .arrow {
+        transform: rotate(180deg);
+    }
+
+    /* Review Section */
+    .review-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+    .review-card {
+        background: var(--card);
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 8px 25px rgba(12,15,20,0.08);
+        border: 1px solid rgba(12,15,20,0.05);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .review-card .stars {
+        color: #ffc107; /* Gold color for stars */
+        font-size: 1.3rem;
+        margin-bottom: 0.8rem;
+    }
+    .review-card .review-text {
+        font-size: 1rem;
+        color: var(--dark);
+        margin-bottom: 1rem;
+        flex-grow: 1; /* Allows text to take available space */
+    }
+    .review-card .reviewer-name {
+        font-weight: 700;
+        color: var(--accent);
+        font-size: 1.05rem;
+    }
+    .review-card .reviewer-title {
+        font-size: 0.9rem;
+        color: var(--muted);
+    }
+
+
+    /* responsive */
+    @media (max-width:900px){
+      .cols{grid-template-columns:1fr}
+      .rooms-grid{grid-template-columns:repeat(2,1fr)}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+      nav.desktop{display:none}
+      .hamburger{display:block}
+      .hero-content{margin-left:0; text-align:center; padding-top: 80px;}
+      .hero-cta{justify-content:center;}
+    }
+    @media (max-width:520px){
+      /* Fix 1: Hero section background images visibility and content positioning */
+      .hero {
+          height: auto; /* Allow height to adjust based on content */
+          min-height: 500px; /* Ensure minimum height */
+          padding-bottom: 60px; /* Add padding to prevent content from being cut off by slider dots */
+          display: flex; /* Use flexbox to better align content */
+          flex-direction: column;
+          justify-content: flex-end; /* Push content to the bottom */
+      }
+      .slides {
+          position: absolute; /* Keep slides absolute to fill hero */
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+      }
+      .hero-overlay {
+          position: static; /* Remove absolute positioning from overlay for content flow */
+          padding: 2rem 1rem; /* Adjust padding for mobile */
+          justify-content: center; /* Center content vertically */
+          text-align: center;
+          background: linear-gradient(180deg, rgba(4,7,12,0.15), rgba(4,7,12,0.38)); /* Re-apply overlay */
+      }
+      .hero-content {
+          margin-left: 0;
+          padding-top: 0; /* No need for padding-top offset here anymore */
+          width: 100%; /* Ensure content takes full width */
+      }
+      .hotel-name{font-size:clamp(1.8rem,6vw,2.5rem);line-height:1.2;}
+      .hero-sub{font-size:clamp(1rem,3.5vw,1.3rem);}
+      .hero-cta {
+          flex-direction: column;
+          align-items: center;
+          gap: 0.7rem; /* Adjusted gap */
+      }
+      .hero-cta .btn {
+          width: 90%; /* Make buttons wider for better touch targets */
+      }
+      .slider-controls {
+          bottom: 20px; /* Adjust slider controls position for mobile */
+      }
+
+      /* Fix 2: WhatsApp floating button visibility */
+      .whatsapp-float {
+          right: 10px; /* Adjust position for smaller screens */
+          bottom: 10px; /* Adjust position for smaller screens */
+      }
+      .wh-btn {
+          width: 50px; /* Slightly smaller button for mobile */
+          height: 50px;
+          font-size: 18px; /* Adjust icon size */
+      }
+
+      /* Fix 3: Book Your Room / Send an Enquiry card responsiveness */
+      #contact .card {
+          flex-direction: column; /* Stack children vertically */
+          gap: 1.5rem; /* Restore gap for vertical layout */
+          padding: 1rem; /* Adjust padding for smaller screens */
+      }
+      #contact .card > div {
+          min-width: unset; /* Remove min-width constraint */
+          width: 100%; /* Make child divs take full width */
+      }
+      #contact .card form .row {
+          flex-direction: column; /* Stack form elements in a column */
+          gap: 0; /* Remove gap between stacked items if undesired */
+      }
+      #contact .card form .row > div {
+          width: 100%;
+          margin-bottom: 0.8rem; /* Add spacing between elements in rows */
+      }
+      #contact .card form .row > div:last-child {
+          margin-bottom: 0; /* Remove bottom margin for the last element in a row */
+      }
+      #contact form input,
+      #contact form select,
+      #contact form textarea {
+          margin-bottom: 0.8rem; /* Add margin to form fields */
+      }
+      #contact form label {
+          margin-top: 0.8rem; /* Add margin to labels above inputs */
+      }
+      #contact form label:first-of-type {
+          margin-top: 0; /* No top margin for the very first label */
+      }
+
+      /* Other mobile adjustments */
+      .rooms-grid{grid-template-columns:1fr}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+      .gallery img{height:120px}
+      .brand{font-size:0.95rem}
+      
+      /* Why Choose Us section adjustments */
+      .why-choose-us-grid {
+          grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width:400px){
+      .hero-cta{flex-direction:column;gap:0.7rem;}
+      .btn{width:100%;}
+      .gallery{grid-template-columns:1fr} /* single column for gallery on very small screens */
+    }
+
+    /* small utilities */
+    .muted{color:var(--muted);font-size:0.98rem;}
+    .row-center{display:flex;align-items:center;gap:0.6rem}
+    .section-title{text-align:center;margin-bottom:1.5rem;position:relative;}
+    .section-title::after{
+      content:'';display:block;width:60px;height:4px;background:var(--accent);
+      margin:10px auto 0;border-radius:2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav" role="banner">
+    <div class="nav-inner">
+      <div class="brand" aria-label="ALNARO RESORT brand">
+        <div class="logo">AR</div>
+        <div>
+          <div style="font-weight:900">ALNARO <span style="color:var(--accent)">RESORT</span></div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">Riverview • Moratuwa</div>
+        </div>
+      </div>
+
+      <nav class="desktop" role="navigation" aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#rooms">Rooms</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#faq">Q&A</a>
+        <a href="#contact" class="cta">Book / Contact</a>
+      </nav>
+
+      <div class="hamburger" aria-hidden="true">
+        <button id="menuBtn" aria-label="Open menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SLIDER -->
+  <section class="hero" aria-label="Hero — ALNARO RESORT">
+    <div class="slides" id="slides">
+      <div class="slide" style="background-image:url('bac01.png')" role="img" aria-label="Panoramic Riverview at ALNARO RESORT"></div>
+      <div class="slide" style="background-image:url('bac02.png')" role="img" aria-label="Elegant Family restaurant with scenic riverview"></div>
+      <div class="slide" style="background-image:url('bac03.png')" role="img" aria-label="Grand Function hall perfectly set for an event"></div>
+      <div class="slide" style="background-image:url('bac04.png')" role="img" aria-label="Luxurious rooms offering stunning river vistas"></div>
+      <div class="slide" style="background-image:url('bac05.png')" role="img" aria-label="Breathtaking Rooftop riverview at sunset"></div>
+    </div>
+
+    <div class="hero-overlay" aria-hidden="false">
+      <div class="hero-content" role="region" aria-labelledby="hero-title">
+        <div id="hero-title" class="hotel-name">EXPERIENCE <span style="color:var(--accent)">LUXURY</span> <br>AT ALNARO RESORT</div>
+        <div class="hero-sub">Your perfect escape with Riverview • Exquisite Dining • Elegant Function Halls • Luxurious Rooms</div>
+        <div class="hero-cta">
+          <button class="btn btn-solid" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">BOOK YOUR STAY</button>
+          <button class="btn btn-outline" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">EXPLORE GALLERY</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="slider-controls" id="dots" aria-hidden="false"></div>
+  </section>
+
+  <!-- MAIN -->
+  <main class="container" role="main">
+
+    <!-- About & Quick Info -->
+    <section id="about" class="cols" style="margin-top:2rem;" aria-label="About ALNARO RESORT">
+      <div class="card">
+        <h2 style="margin-top:0" class="section-title">Welcome to ALNARO RESORT</h2>
+        <p class="muted">Nestled at No-556/G, De Zoysa Road, Molpe, Moratuwa, ALNARO RESORT stands as a beacon of luxury and tranquility. We pride ourselves on offering exquisite reception & function halls, a captivating family restaurant with breathtaking river views, and a curated selection of luxury and semi-luxury rooms, all designed with an empire-style elegance. Our dedicated team guarantees a warm, friendly service and ample parking for every guest and event attendee, ensuring your experience is nothing short of perfect.</p>
+
+        <div class="features" aria-hidden="false">
+          <div class="feature"><div class="icon">🏨</div><div><strong>Grand Function Halls</strong><div class="muted">Air-conditioned elegance & enchanting garden venues</div></div></div>
+          <div class="feature"><div class="icon">🍽️</div><div><strong>Delightful Family Restaurant</strong><div class="muted">Scenic riverview dining with authentic, high-quality cuisine</div></div></div>
+          <div class="feature"><div class="icon">🛏️</div><div><strong>Luxurious Accommodations</strong><div class="muted">Choose from Deluxe, King & Opulent Suites</div></div></div>
+          <div class="feature"><div class="icon">🚗</div><div><strong>Convenient Parking</strong><div class="muted">Spacious & secure parking for all guests and events</div></div></div>
+        </div>
+
+        <div style="margin-top:1.5rem;display:flex;gap:0.8rem;flex-wrap:wrap">
+          <a href="tel:+94112651035" class="btn btn-outline" style="border-color:var(--accent);color:var(--accent);">Call: 0112 651 035</a>
+          <a href="tel:+94112651551" class="btn btn-outline" style="border-color:var(--accent);color:var(--accent);">Call: 0112 651 551</a>
+          <a href="tel:+94762409496" class="btn btn-outline" style="border-color:var(--accent);color:var(--accent);">Mobile: 0762 409 496</a>
+        </div>
+      </div>
+
+      <!-- Contact quick box -->
+      <aside class="card" id="quick-info" aria-label="Contact details">
+        <h3 style="margin-top:0">Connect with Us</h3>
+        <p class="muted" style="margin:0.45rem 0"><strong>Our Location:</strong><br>No-556/G, De Zoysa Road, Molpe, Moratuwa</p>
+        <p style="margin:0.45rem 0"><strong>Email Us:</strong><br><a href="mailto:alnaroresort@gmail.com" style="color:var(--accent);font-weight:600;">alnaroresort@gmail.com</a></p>
+        <p style="margin:0.45rem 0"><strong>Find us on Facebook:</strong><br><a href="https://www.facebook.com/alnaroresort" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">facebook.com/alnaroresort</a></p>
+        <p style="margin:0.45rem 0"><strong>Follow us on Instagram:</strong><br><a href="https://www.instagram.com/alnaroresort" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">@alnaroresort</a></p>
+        <p class="muted" style="margin-top:1rem"><strong>Perfect for Any Occasion:</strong><br>From enchanting weddings and lively birthday parties to cherished anniversaries and productive corporate functions — we offer both elegant air-conditioned halls and charming garden spaces.</p>
+      </aside>
+    </section>
+
+    <!-- Rooms -->
+    <section id="rooms" style="margin-top:2.5rem">
+      <h2 class="section-title">Our Exquisite Rooms</h2>
+      <div class="card">
+        <div class="rooms-grid" role="list">
+          <article class="room" role="listitem" aria-label="Deluxe room">
+            <img src="1.png" alt="Deluxe Room — ALNARO RESORT">
+            <div class="room-body">
+              <div class="room-title">Deluxe Room</div>
+              <div class="muted">Experience comfort in our semi-luxury Deluxe room, featuring a tranquil river view, a cozy queen bed, an elegant ensuite bathroom, TV, and minibar for your convenience.</div>
+              <div class="price">Contact for Rates</div>
+              <div style="margin-top:0.8rem">
+                <button class="btn btn-solid" onclick="prefillRoom('Deluxe')">Book Deluxe via WhatsApp</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="room" role="listitem" aria-label="King room">
+            <img src="2.png" alt="King Room — ALNARO RESORT">
+            <div class="room-body">
+              <div class="room-title">King Room</div>
+              <div class="muted">Indulge in spacious luxury with our King Room, boasting a lavish king-size bed, a private balcony offering stunning river views, and a host of premium amenities designed for your ultimate relaxation.</div>
+              <div class="price">Contact for Rates</div>
+              <div style="margin-top:0.8rem">
+                <button class="btn btn-solid" onclick="prefillRoom('King')">Book King via WhatsApp</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="room" role="listitem" aria-label="Suite">
+            <img src="3.png" alt="Suite Room — ALNARO RESORT">
+            <div class="room-body">
+              <div class="room-title">Opulent Suite</div>
+              <div class="muted">Step into grandeur with our Empire-style Suite, offering an optional breathtaking rooftop river view, exquisite premium furnishings, and an exclusive private lounge for an unparalleled experience.</div>
+              <div class="price">Contact for Rates</div>
+              <div style="margin-top:0.8rem">
+                <button class="btn btn-solid" onclick="prefillRoom('Suite')">Book Suite via WhatsApp</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Functions -->
+    <section id="functions" style="margin-top:2.5rem">
+      <h2 class="section-title">Host Unforgettable Events & Functions</h2>
+      <div class="card">
+        <div class="grid" style="grid-template-columns:1fr;gap:15px">
+          <p class="muted">ALNARO RESORT is dedicated to hosting flawlessly organized events, backed by our exceptional service. Whether it's grand wedding receptions, important corporate gatherings, cherished anniversaries, or lively birthday parties, our state-of-the-art air-conditioned function hall and charming garden spaces are at your disposal, complete with comprehensive catering and event support. (Please note: We do not feature a swimming pool).</p>
+          <ul style="margin-top:0.6rem;list-style:none;padding:0;">
+            <li class="muted" style="margin-bottom:0.4rem;position:relative;padding-left:25px;"><strong style="color:var(--dark);font-size:1.05rem;">✨ Elegant Air-conditioned Indoor Hall:</strong> Perfectly adorned and reception-ready for any grand event.</li>
+            <li class="muted" style="margin-bottom:0.4rem;position:relative;padding-left:25px;"><strong style="color:var(--dark);font-size:1.05rem;">🌳 Beautiful Garden & Riverside Functions:</strong> Create magical moments with our picturesque outdoor setups.</li>
+            <li class="muted" style="margin-bottom:0.4rem;position:relative;padding-left:25px;"><strong style="color:var(--dark);font-size:1.05rem;">🍲 Exquisite In-house Catering:</strong> Indulge in authentic & high-quality menus, crafted to perfection.</li>
+            <li class="muted" style="position:relative;padding-left:25px;"><strong style="color:var(--dark);font-size:1.05rem;">🅿️ Ample Parking & Professional Staff:</strong> Enjoy hassle-free parking and the attentive service of our friendly event team.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Restaurant -->
+    <section id="restaurant" style="margin-top:2.5rem">
+      <h2 class="section-title">Family Restaurant — A Riverview Culinary Journey</h2>
+      <div class="card" style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center">
+        <img src="4.png" alt="Family restaurant" style="width:380px;max-width:100%;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+        <div>
+          <p class="muted" style="margin:0;font-size:1.05rem;">Savor the taste of authentic, delicious cuisine at our family restaurant, all while enjoying incredibly reasonable rates. Immerse yourself in the pleasant, serene atmosphere of our riverview garden – it's the perfect setting for memorable family meals and relaxed gatherings. Come and create beautiful dining experiences with us!</p>
+          <div style="margin-top:1rem">
+            <a class="btn btn-solid" href="#contact">Reserve Your Table Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" style="margin-top:2.5rem">
+      <h2 class="section-title">Our Photo Gallery</h2>
+      <div class="card">
+        <div class="gallery" aria-hidden="false">
+          <img src="5.png" alt="Stunning Riverview at ALNARO RESORT">
+          <img src="6.png" alt="Spacious Function Hall ready for events">
+          <img src="7.png" alt="Inviting Reception area">
+          <img src="8.png" alt="Charming Restaurant seating with a view">
+          <img src="9.png" alt="Comfortable Deluxe room interior">
+          <img src="10.png" alt="Elegant Suite with rooftop riverview">
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-choose-us" style="margin-top:2.5rem">
+      <h2 class="section-title">Why Choose ALNARO RESORT?</h2>
+      <div class="why-choose-us-grid">
+        <div class="why-choose-us-item">
+          <div class="icon">🌟</div>
+          <div>
+            <h4>Unforgettable River Views</h4>
+            <p>Immerse yourself in breathtaking panoramic river views from our rooms, restaurant, and event spaces.</p>
+          </div>
+        </div>
+        <div class="why-choose-us-item">
+          <div class="icon">🍴</div>
+          <div>
+            <h4>Exquisite Culinary Experience</h4>
+            <p>Savor authentic and high-quality cuisine at our family restaurant, crafted to delight every palate.</p>
+          </div>
+        </div>
+        <div class="why-choose-us-item">
+          <div class="icon">💖</div>
+          <div>
+            <h4>Empire-Style Elegance</h4>
+            <p>Step into a world of grandeur with our unique Empire-style architecture and luxurious interiors.</p>
+          </div>
+        </div>
+        <div class="why-choose-us-item">
+          <div class="icon">🎉</div>
+          <div>
+            <h4>Perfect Event Venue</h4>
+            <p>From weddings to corporate events, our versatile halls and gardens cater to every special occasion.</p>
+          </div>
+        </div>
+        <div class="why-choose-us-item">
+          <div class="icon">🛎️</div>
+          <div>
+            <h4>Exceptional Service</h4>
+            <p>Our dedicated and friendly team is committed to providing a warm and personalized experience for every guest.</p>
+          </div>
+        </div>
+        <div class="why-choose-us-item">
+          <div class="icon">🅿️</div>
+          <div>
+            <h4>Ample & Secure Parking</h4>
+            <p>Enjoy peace of mind with our spacious and secure parking facilities for all guests and event attendees.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Review Section -->
+    <section id="reviews" style="margin-top:2.5rem;">
+        <h2 class="section-title">Guest Reviews & Testimonials</h2>
+        <div class="review-grid">
+            <div class="review-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="review-text">"ALNARO RESORT offered an incredible experience! The river views from our suite were absolutely stunning, and the food at the restaurant was divine. The staff were incredibly friendly and attentive. Highly recommend for a luxurious getaway!"</p>
+                <div class="reviewer-name">— Priyanka Silva</div>
+                <div class="reviewer-title">Guest</div>
+            </div>
+            <div class="review-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="review-text">"We hosted our wedding reception here, and it was perfect! The function hall was beautifully decorated, and the catering was top-notch. Our guests loved the ambiance. A big thank you to the ALNARO team for making our special day unforgettable."</p>
+                <div class="reviewer-name">— The Perera Family</div>
+                <div class="reviewer-title">Wedding Clients</div>
+            </div>
+            <div class="review-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="review-text">"The family restaurant at ALNARO RESORT is a hidden gem! Delicious food, reasonable prices, and that river view... it's just magical. We come here often for our family dinners and are always impressed."</p>
+                <div class="reviewer-name">— Kusal Mendis</div>
+                <div class="reviewer-title">Regular Diner</div>
+            </div>
+            <div class="review-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="review-text">"Stayed in a King Room and couldn't be happier. The private balcony was fantastic, and the room was impeccably clean and luxurious. Great spot for relaxation and unwinding by the river."</p>
+                <div class="reviewer-name">— Dr. N. Fernando</div>
+                <div class="reviewer-title">Business Traveler</div>
+            </div>
+            <div class="review-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="review-text">"From the moment we arrived, the hospitality was outstanding. Every detail was taken care of, and the resort truly lives up to its name. A serene and luxurious escape. We'll definitely be back!"</p>
+                <div class="reviewer-name">— Samantha & David</div>
+                <div class="reviewer-title">Holidaymakers</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Q&A Section -->
+    <section id="faq" style="margin-top:2.5rem;">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <div class="qa-section">
+            <div class="qa-item">
+                <div class="qa-question" onclick="toggleAnswer(this)">
+                    <span>What types of rooms are available at ALNARO RESORT?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="qa-answer">
+                    <p>ALNARO RESORT offers Deluxe Rooms (semi-luxury, river view, queen bed), King Rooms (spacious, king bed, private balcony, river view), and Opulent Suites (Empire-style, optional rooftop river view, premium furnishings, private lounge).</p>
+                </div>
+            </div>
+            <div class="qa-item">
+                <div class="qa-question" onclick="toggleAnswer(this)">
+                    <span>Do you have facilities for events and functions?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="qa-answer">
+                    <p>Yes, we have elegant air-conditioned indoor function halls and beautiful garden spaces perfect for weddings, birthdays, anniversaries, and corporate events. We also provide in-house catering and professional staff.</p>
+                </div>
+            </div>
+            <div class="qa-item">
+                <div class="qa-question" onclick="toggleAnswer(this)">
+                    <span>Is there a restaurant at the resort?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="qa-answer">
+                    <p>Absolutely! Our family restaurant offers authentic, delicious cuisine at reasonable rates, accompanied by a pleasant riverview garden atmosphere. Reservations are recommended, especially on weekends.</p>
+                </div>
+            </div>
+            <div class="qa-item">
+                <div class="qa-question" onclick="toggleAnswer(this)">
+                    <span>What are the check-in and check-out times?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="qa-answer">
+                    <p>Standard check-in time is 2:00 PM and check-out time is 12:00 PM. Early check-in or late check-out may be available upon request and subject to availability and additional charges.</p>
+                </div>
+            </div>
+            <div class="qa-item">
+                <div class="qa-question" onclick="toggleAnswer(this)">
+                    <span>Does ALNARO RESORT have a swimming pool?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="qa-answer">
+                    <p>No, ALNARO RESORT does not feature a swimming pool. However, we offer serene river views and a tranquil environment for relaxation.</p>
+                </div>
+            </div>
+            <div class="qa-item">
+                <div class="qa-question" onclick="toggleAnswer(this)">
+                    <span>How can I make a booking or enquiry?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="qa-answer">
+                    <p>You can book directly via our WhatsApp number <a href="https://wa.me/94777364145" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">0777 364 145</a>, call us on the provided numbers, or use the booking/enquiry form on our website.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Booking Form -->
+    <section id="contact" style="margin-top:2.5rem">
+      <h2 class="section-title">Connect With Us & Book Your Stay</h2>
+      <div class="card" style="display:flex;flex-direction:column;gap:1.5rem">
+        <div style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:flex-start">
+          <div style="flex:1;min-width:280px">
+            <h3 style="margin-top:0">Quick Contacts</h3>
+            <p class="muted" style="margin:0.3rem 0;font-size:1rem;"><strong>Reach Us By Phone:</strong><br>
+              <a href="tel:+94112651035" style="color:var(--accent);font-weight:600;">0112 651 035</a><br>
+              <a href="tel:+94112651551" style="color:var(--accent);font-weight:600;">0112 651 551</a><br>
+              <a href="tel:+94762409496" style="color:var(--accent);font-weight:600;">0762 409 496</a>
+            </p>
+            <p class="muted" style="margin:0.6rem 0;font-size:1rem;"><strong>Send Us an Email:</strong><br><a href="mailto:alnaroresort@gmail.com" style="color:var(--accent);font-weight:600;">alnaroresort@gmail.com</a></p>
+            <p class="muted" style="margin:0.6rem 0;font-size:1rem;"><strong>Instant Booking (WhatsApp):</strong><br>For quick reservations, send your details to <a href="https://wa.me/94777364145" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">0777 364 145</a></p>
+            <p class="muted" style="margin-top:1rem;font-size:1rem;font-weight:500;"><strong>Important Note:</strong> We kindly inform our guests that ALNARO RESORT does not feature a swimming pool.</p>
+          </div>
+
+          <div style="flex:1;min-width:280px" class="card">
+            <h3 style="margin-top:0">Book Your Room / Send an Enquiry</h3>
+            <form id="bookingForm" onsubmit="handleBooking(event)">
+              <label for="name">Full Name</label>
+              <input id="name" name="name" required placeholder="Your full name">
+
+              <div class="row" style="margin-top:0.8rem">
+                <div style="flex:1">
+                  <label for="phone">Phone Number</label>
+                  <input id="phone" name="phone" required placeholder="e.g., 07xxxxxxxx">
+                </div>
+                <div style="flex:1"> <!-- Changed to flex:1 to make it responsive -->
+                  <label for="roomType">Preferred Room Type</label>
+                  <select id="roomType" name="roomType" required>
+                    <option value="Deluxe">Deluxe Room</option>
+                    <option value="King">King Room</option>
+                    <option value="Suite">Opulent Suite</option>
+                  </select>
+                </div>
+              </div>
+
+              <label for="checkin" style="margin-top:0.8rem">Check-in Date</label>
+              <input id="checkin" name="checkin" type="date" required>
+
+              <label for="checkout" style="margin-top:0.8rem">Check-out Date</label>
+              <input id="checkout" name="checkout" type="date" required>
+
+              <label for="guests" style="margin-top:0.8rem">Number of Guests</label>
+              <input id="guests" name="guests" placeholder="e.g., 2 adults, 1 child" type="number" min="1" value="2">
+
+              <label for="message" style="margin-top:0.8rem">Additional Message (Optional)</label>
+              <textarea id="message" name="message" rows="4" placeholder="Any special requests or questions you may have"></textarea>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-solid">Send Booking via WhatsApp</button>
+                <button type="button" class="btn btn-outline" onclick="clearForm()">Clear Form</button>
+              </div>
+
+              <div class="note">Upon submission, your booking details will be pre-filled into a WhatsApp message, ready for you to send. This works seamlessly on both mobile (WhatsApp app) and desktop (WhatsApp Web).</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Floating WhatsApp -->
+  <div class="whatsapp-float" aria-hidden="false">
+    <a href="https://wa.me/94777364145" target="_blank" rel="noopener" class="wh-btn" title="Chat on WhatsApp">
+      <span style="font-size:20px">💬</span>
+      <span>WhatsApp</span>
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div style="text-align:left;">
+          <strong>ALNARO RESORT</strong>
+          <div class="muted">No-556/G, De Zoysa Road, Molpe, Moratuwa, Sri Lanka</div>
+          <div class="muted" style="margin-top:0.5rem;">Experience Riverview Luxury</div>
+        </div>
+        <div class="muted" style="text-align:right">
+          <div>Phone: <a href="tel:+94112651035">0112 651 035</a>, <a href="tel:+94112651551">0112 651 551</a></div>
+          <div>Mobile: <a href="tel:+94762409496">0762 409 496</a></div>
+          <div>WhatsApp: <a href="https://wa.me/94777364145" target="_blank" rel="noopener">0777 364 145</a></div>
+          <div>Email: <a href="mailto:alnaroresort@gmail.com">alnaroresort@gmail.com</a></div>
+          <div style="margin-top:0.5rem;">Connect with us on:</div>
+          <div>
+            <a href="https://www.facebook.com/alnaroresort" target="_blank" rel="noopener">Facebook</a> |
+            <a href="https://www.instagram.com/alnaroresort" target="_blank" rel="noopener">Instagram</a>
+          </div>
+        </div>
+      </div>
+      <div class="muted" style="margin-top:1.5rem;font-size:0.85rem;">&copy; 2024 ALNARO RESORT. All rights reserved. Designed & Developed with 💖.</div>
+    </div>
+  </footer>
+
+  <script>
+    /* HERO SLIDER LOGIC */
+    (function(){
+      const slides = document.getElementById('slides');
+      const total = slides.children.length;
+      let idx = 0;
+      const dotsContainer = document.getElementById('dots');
+
+      // create dots
+      for(let i=0;i<total;i++){
+        const d = document.createElement('button');
+        d.className = 'dot';
+        d.setAttribute('aria-label','Go to slide '+(i+1));
+        d.onclick = (e) => { goTo(i); };
+        dotsContainer.appendChild(d);
+      }
+      const dots = dotsContainer.querySelectorAll('.dot');
+
+      function update(){
+        slides.style.transform = 'translateX(' + (-idx*100) + '%)';
+        dots.forEach((el,i)=> el.classList.toggle('active', i===idx));
+      }
+
+      function goTo(i){
+        idx = (i + total) % total;
+        update();
+      }
+
+      // auto advance every 5s but pause on interaction
+      let auto = setInterval(()=>{ idx = (idx+1)%total; update(); }, 5000);
+      function resetAuto(){ clearInterval(auto); auto = setInterval(()=>{ idx = (idx+1)%total; update(); }, 5000); }
+      // pause on hover (desktop)
+      slides.addEventListener('mouseenter', ()=> clearInterval(auto));
+      slides.addEventListener('mouseleave', resetAuto);
+
+      // initial
+      update();
+
+      // add simple swipe for mobile
+      let startX = 0;
+      slides.addEventListener('touchstart', e => { startX = e.touches[0].clientX; clearInterval(auto); }, {passive:true});
+      slides.addEventListener('touchend', e => {
+        const endX = e.changedTouches[0].clientX;
+        const diff = startX - endX;
+        if(Math.abs(diff) > 40){
+          if(diff > 0) idx = (idx+1)%total; else idx = (idx-1+total)%total;
+          update();
+        }
+        resetAuto();
+      });
+    })();
+
+    /* MOBILE MENU (simple) */
+    (function(){
+      const menuBtn = document.getElementById('menuBtn');
+      menuBtn.addEventListener('click', ()=>{
+        const nav = document.querySelector('nav.desktop');
+        if(nav.style.display === 'flex'){ nav.style.display = 'none'; menuBtn.textContent = '☰'; }
+        else { nav.style.display = 'flex'; nav.style.flexDirection = 'column'; nav.style.background = 'white'; nav.style.position='absolute'; nav.style.right='12px'; nav.style.top='64px'; nav.style.padding='10px'; nav.style.borderRadius='10px'; nav.style.boxShadow = '0 8px 20px rgba(0,0,0,0.1)'; menuBtn.textContent = '✕';}
+      });
+      // Close mobile menu on link click
+      document.querySelectorAll('nav.desktop a').forEach(item => {
+        item.addEventListener('click', () => {
+          const nav = document.querySelector('nav.desktop');
+          if (window.innerWidth <= 900) { // Only for mobile
+            nav.style.display = 'none';
+            menuBtn.textContent = '☰';
+          }
+        });
+      });
+    })();
+
+    /* Booking form -> open WhatsApp with prefilled message */
+    function handleBooking(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const roomType = document.getElementById('roomType').value;
+      const checkin = document.getElementById('checkin').value;
+      const checkout = document.getElementById('checkout').value;
+      const guests = document.getElementById('guests').value || '1';
+      const message = document.getElementById('message').value.trim();
+
+      // Basic validation
+      if(!name || !phone || !checkin || !checkout){ alert('Please fill name, phone and check-in/out dates.'); return; }
+
+      const text = [
+        'Booking request for ALNARO RESORT',
+        'Name: ' + name,
+        'Phone: ' + phone,
+        'Room: ' + roomType,
+        'Check-in: ' + checkin,
+        'Check-out: ' + checkout,
+        'Guests: ' + guests,
+        message ? 'Note: ' + message : ''
+      ].filter(Boolean).join('\\n');
+
+      // Sri Lanka WhatsApp number without leading 0
+      const waNumber = '94777364145';
+      const url = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(text);
+      window.open(url, '_blank');
+    }
+
+    function clearForm(){
+      document.getElementById('bookingForm').reset();
+    }
+
+    /* Room quick booking — prefills form and opens WhatsApp */
+    function prefillRoom(room){
+      const userName = prompt('Enter your full name (for booking)', '');
+      if(userName === null || userName.trim() === '') { alert('Name is required for booking.'); return; }
+
+      const userPhone = prompt('Enter phone number (e.g., 07xxxxxxxx)', '');
+      if(userPhone === null || userPhone.trim() === '') { alert('Phone number is required for booking.'); return; }
+      if (!/^\d{9,10}$/.test(userPhone.trim())) { // Simple check for 9 or 10 digits
+          alert('Please enter a valid phone number (e.g., 07xxxxxxxx).');
+          return;
+      }
+
+      const checkin = prompt('Check-in date (YYYY-MM-DD)', '');
+      if(checkin === null || checkin.trim() === '') { alert('Check-in date is required for booking.'); return; }
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(checkin.trim())) {
+          alert('Please enter check-in date in YYYY-MM-DD format.');
+          return;
+      }
+
+      const checkout = prompt('Check-out date (YYYY-MM-DD)', '');
+      if(checkout === null || checkout.trim() === '') { alert('Check-out date is required for booking.'); return; }
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(checkout.trim())) {
+          alert('Please enter check-out date in YYYY-MM-DD format.');
+          return;
+      }
+
+      const text = [
+        'Booking request for ALNARO RESORT',
+        'Name: ' + userName,
+        'Phone: ' + userPhone,
+        'Room: ' + room,
+        'Check-in: ' + checkin,
+        'Check-out: ' + checkout,
+      ].join('\\n');
+
+      const waNumber = '94777364145';
+      const url = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(text);
+      window.open(url, '_blank');
+    }
+
+    /* Q&A section toggle logic */
+    function toggleAnswer(element) {
+        const qaItem = element.closest('.qa-item');
+        const answer = qaItem.querySelector('.qa-answer');
+        const arrow = element.querySelector('.arrow');
+
+        element.classList.toggle('active');
+        if (answer.style.maxHeight) {
+            answer.style.maxHeight = null;
+        } else {
+            answer.style.maxHeight = answer.scrollHeight + "px";
+        }
+    }
+  </script>
+</body>
+</html>
